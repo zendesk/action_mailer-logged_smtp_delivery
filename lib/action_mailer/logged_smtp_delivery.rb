@@ -1,4 +1,4 @@
-require 'actionmailer'
+require 'action_mailer'
 require 'active_support/core_ext/class/attribute'
 require 'net/smtp'
 
