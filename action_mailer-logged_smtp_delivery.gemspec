@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.summary       = "An ActionMailer delivery strategy"
   gem.homepage      = 'https://github.com/eac/action_mailer-logged_smtp_delivery'
 
-  gem.files         = Dir.glob('{lib,test}/**/*') + ['README.md', 'CONTRIBUTING.md']
+  gem.files         = Dir.glob('{lib,test}/**/*') + ['README.md']
   gem.test_files    = gem.files.grep(/test\//)
   gem.require_paths = ['lib']
 
