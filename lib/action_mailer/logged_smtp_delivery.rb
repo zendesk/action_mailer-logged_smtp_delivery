@@ -11,18 +11,6 @@ require 'net/smtp'
 # Can optionally log the raw email
 # TLS support
 module ActionMailer::LoggedSMTPDelivery
-  class DeliveryFailure < StandardError
-
-    delegate :message, :backtrace, :to_s, :to => :original_exception
-
-    attr_reader :original_exception, :destinations
-
-    def initialize(original_exception, destinations)
-      @original_exception = original_exception
-      @destinations       = destinations
-    end
-
-  end
 
   def self.included(base)
     base.class_attribute :mail_file_logger
@@ -59,9 +47,6 @@ module ActionMailer::LoggedSMTPDelivery
         response = session.send_message(message, sender, destinations)
         log "done #{response.inspect}"
       end
-    rescue Exception => e
-      log "failed #{e.message}"
-      raise DeliveryFailure.new(e, destinations)
     end
 
     def destinations

@@ -127,45 +127,6 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
       assert_equal false, @delivery.message.include?('bcc@example.com')
     end
 
-    describe "failure" do
-      before do
-        @delivery.settings[:adaptor] = Class.new do
-          def initialize(*args)
-            raise StandardError.new("Invalid address")
-          end
-        end
-
-        begin
-          @mail.from = 'me@example.com'
-          @mail.to   = 'to@example.com'
-          @mail.cc   = 'cc@example.com'
-          @delivery.perform
-          assert false, "Delivery didn't raise an exception"
-        rescue StandardError => e
-          @failure = e
-        end
-      end
-
-      it "provides the original exception" do
-        original_exception = @failure.original_exception
-        assert_equal StandardError,     original_exception.class
-        assert_equal "Invalid address", original_exception.message
-      end
-
-      it "provides the destinations that it failed delivery to" do
-        assert_equal [ 'to@example.com', 'cc@example.com' ], @failure.destinations
-      end
-
-      it "acts displays the original exception" do
-        original_exception = @failure.original_exception
-
-        assert_equal original_exception.backtrace, @failure.backtrace
-        assert_equal original_exception.message,   @failure.message
-        assert_equal original_exception.to_s,      @failure.to_s
-      end
-
-    end
-
   end
 
 end
