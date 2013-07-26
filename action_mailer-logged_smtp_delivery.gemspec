@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
 
   gem.name          = 'action_mailer-logged_smtp_delivery'
   gem.require_paths = ['lib']
-  gem.version       = '1.0.2'
+  gem.version       = '1.1.0'
 
   gem.add_development_dependency 'actionmailer', '2.3.16'
   gem.add_development_dependency 'minitest'
