@@ -2,7 +2,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Eric Chapweske']
   gem.description   = "ActionMailer SMTP delivery strategy with advanced logging and Bcc support"
   gem.summary       = "An ActionMailer delivery strategy"
-  gem.homepage      = 'https://github.com/grosser/action_mailer-logged_smtp_delivery'
+  gem.homepage      = 'https://github.com/zendesk/action_mailer-logged_smtp_delivery'
 
   gem.files         = Dir.glob('lib/**/*') + ['README.md']
 
