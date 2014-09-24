@@ -1,66 +1,71 @@
 require_relative 'helper'
-require 'action_mailer/logged_smtp_delivery'
-require 'logger'
 
 class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
-
   class TestMailer < ActionMailer::Base
     include ActionMailer::LoggedSMTPDelivery
 
-    self.mail_file_logger = MemoryLogger.new
-    self.logger           = Logger.new(StringIO.new)
     self.delivery_method  = :logged_smtp
-    self.smtp_settings    = { :adaptor => FakeSMTP }
+    self.logged_smtp_settings = {
+      :adaptor => FakeSMTP,
+      :mail_file_logger => MemoryLogger.new,
+      :logger => Logger.new(StringIO.new)
+    }
 
     def welcome
-      recipients 'to@example.com'
-      from       'me@example.com'
-      body       'hello'
-
-      # Keep the message simple and consistent between test runs
-      headers['mime-version'] = ''
-      charset nil
-      headers['date'] = ''
+      mail(
+        to: 'to@example.com',
+        from: 'me@example.com',
+        body: 'hello'
+      )
     end
-
   end
 
   describe 'delivering via actionmailer' do
+    def without_file_logger
+      original_logger = TestMailer.logged_smtp_settings[:mail_file_logger]
+      TestMailer.logged_smtp_settings[:mail_file_logger] = nil
+      yield
+    ensure
+      TestMailer.logged_smtp_settings[:mail_file_logger] = original_logger
+    end
+
+    let(:mail_file_logger) { TestMailer.logged_smtp_settings[:mail_file_logger] }
     before do
-      TestMailer.mail_file_logger.clear
+      mail_file_logger.clear
       FakeSMTP.deliveries.clear
     end
 
     it 'logs the mail to a file when the mail file logger is available' do
-      TestMailer.deliver_welcome
-      assert_equal "From: me@example.com\r\nTo: to@example.com\r\nContent-Type: text/plain\r\n\r\nhello", TestMailer.mail_file_logger.messages.last
-      TestMailer.mail_file_logger.messages.clear
+      TestMailer.welcome.deliver
+      mail_file_logger.messages.pop.gsub(/(Date|Message-ID):.*\r\n/, '').must_equal "From: me@example.com\r\nTo: to@example.com\r\nSubject: Welcome\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"
+    end
 
-      original_logger = TestMailer.mail_file_logger
-      TestMailer.mail_file_logger = nil
-      assert TestMailer.deliver_welcome
-      TestMailer.mail_file_logger = original_logger
+    it 'does not logs without file logger' do
+      without_file_logger do
+        assert TestMailer.welcome.deliver
+        mail_file_logger.messages.must_equal []
+      end
     end
 
     it 'delivers the mail' do
-      TestMailer.deliver_welcome
-      delivery = ["From: me@example.com\r\nTo: to@example.com\r\nContent-Type: text/plain\r\n\r\nhello", "me@example.com", ["to@example.com"]]
-
-      assert_equal delivery, FakeSMTP.deliveries.last
+      TestMailer.welcome.deliver
+      mail = FakeSMTP.deliveries.last
+      mail[0].gsub(/(Date|Message-ID):.*\r\n/, '').must_equal "From: me@example.com\r\nTo: to@example.com\r\nSubject: Welcome\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"
+      mail[1].must_equal "me@example.com"
+      mail[2].must_equal ["to@example.com"]
     end
-
   end
 
   describe 'SMTP Delivery' do
     before do
       @settings = { :adaptor => FakeSMTP }
-      @mail     = TMail::Mail.new.tap do |mail|
+      @mail = Mail.new.tap do |mail|
         mail.message_id = '<12345@example.com>'
       end
-      @delivery = ActionMailer::LoggedSMTPDelivery::SMTPDelivery.new(@mail, @settings)
-      @log      = StringIO.new
-      @delivery.logger = Logger.new(@log)
-      @delivery.logger.formatter = lambda { |severity, datetime, progname, msg| msg }
+      @log = StringIO.new
+      logger = Logger.new(@log)
+      @delivery = ActionMailer::LoggedSMTPDelivery::SMTPDelivery.new(@mail, @settings, logger)
+      logger.formatter = lambda { |severity, datetime, progname, msg| msg }
     end
 
     it 'has the sender via the first from address' do
@@ -92,7 +97,7 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
     it 'logs with the mail message id' do
       @delivery.log 'hello'
 
-      assert_equal '<12345@example.com> hello', @log.string
+      assert_equal '12345@example.com hello', @log.string
     end
 
     it 'logs headers when the log header is provided' do
@@ -103,7 +108,7 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
       @delivery.mail['X-Delivery-Context'] = 'hello-33'
       @delivery.log_headers
 
-      assert_equal '<12345@example.com> X-Delivery-Context: [hello-33]', @log.string
+      assert_equal '12345@example.com X-Delivery-Context: [hello-33]', @log.string
     end
 
     it 'sends the mail' do
@@ -112,21 +117,17 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
       @mail.cc   = 'cc@example.com'
       @mail.bcc  = 'bcc@example.com'
       @mail.body = 'hello'
-      message = [
-        "From: me@example.com\r\nTo: to@example.com\r\nCc: cc@example.com\r\nMessage-Id: <12345@example.com>\r\n\r\nhello",
-        "me@example.com",
-        ["to@example.com", "cc@example.com", "bcc@example.com"]
-      ]
       @delivery.perform
 
-      assert_equal message, FakeSMTP.deliveries.last
+      mail = FakeSMTP.deliveries.last
+      mail[0].gsub(/(Date|Message-ID):.*\r\n/, '').must_equal "From: me@example.com\r\nTo: to@example.com\r\nCc: cc@example.com\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"
+      mail[1].must_equal "me@example.com"
+      mail[2].must_equal ["to@example.com", "cc@example.com", "bcc@example.com"]
     end
 
     it 'does not include BCC addresses in the message' do
       @mail.bcc = 'bcc@example.com'
       assert_equal false, @delivery.message.include?('bcc@example.com')
     end
-
   end
-
 end

@@ -1,41 +1,31 @@
 require 'action_mailer'
-require 'active_support/core_ext/class/attribute'
 require 'net/smtp'
 
-#TODO: Add mail file logger
-
-# A few features:
-# Hides BCC recipients
-# Detailed log stream with message id token
-# Logs an identification header to quickly locate logs for a specific email
-# Can optionally log the raw email
-# TLS support
 module ActionMailer::LoggedSMTPDelivery
-
-  def self.included(base)
-    base.class_attribute :mail_file_logger
-  end
-
-  def perform_delivery_logged_smtp(mail)
-    delivery        = SMTPDelivery.new(mail, smtp_settings)
-    delivery.logger = logger
-
-    if mail_file_logger
-      path = mail_file_logger.log(mail.encoded)
-      delivery.log "stored at #{path}"
+  class Mailer
+    def initialize(settings)
+      @settings = settings
     end
 
-    delivery.perform
+    def deliver!(mail)
+      delivery = SMTPDelivery.new(mail, @settings, @settings.fetch(:logger))
+
+      if logger = @settings[:mail_file_logger]
+        path = logger.log(mail.encoded)
+        delivery.log "stored at #{path}"
+      end
+
+      delivery.perform
+    end
   end
 
   class SMTPDelivery
+    attr_reader   :mail, :settings, :logger
 
-    attr_reader   :mail, :settings
-    attr_accessor :logger
-
-    def initialize(mail, settings)
+    def initialize(mail, settings, logger)
       @mail         = mail
       @settings     = settings
+      @logger       = logger
     end
 
     def perform
@@ -76,7 +66,7 @@ module ActionMailer::LoggedSMTPDelivery
     end
 
     def log_headers
-      log "#{log_header}: [#{mail[log_header]}]" unless log_header.nil?
+      log "#{log_header}: [#{mail[log_header]}]" if log_header
     end
 
     def log(message)
@@ -90,7 +80,7 @@ module ActionMailer::LoggedSMTPDelivery
     def smtp_adaptor
       settings[:adaptor] || Net::SMTP
     end
-
   end
-
 end
+
+ActionMailer::Base.add_delivery_method :logged_smtp, ActionMailer::LoggedSMTPDelivery::Mailer
