@@ -10,9 +10,11 @@ Gem::Specification.new do |gem|
   gem.version       = '2.0.0'
   gem.license       = "Apache V2"
 
-  gem.add_development_dependency 'actionmailer', '~> 3.2.19'
-  gem.add_development_dependency 'minitest', '~> 4.7.5'
+  gem.add_runtime_dependency 'actionmailer', '>= 3.2.19', '< 4.2.0'
+
+  gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'minitest-rg'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'bump'
+  gem.add_development_dependency 'wwtd'
 end
