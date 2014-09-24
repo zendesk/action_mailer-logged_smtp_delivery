@@ -1,9 +1,13 @@
 require 'bundler/setup'
-$LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib'))) # lib
+require 'action_mailer/logged_smtp_delivery'
+
 require 'minitest/autorun'
+require 'minitest/rg'
+require 'logger'
+
+I18n.enforce_available_locales = false
 
 class MemoryLogger
-
   def log(message)
     messages << message
   end
@@ -15,11 +19,9 @@ class MemoryLogger
   def clear
     messages.clear
   end
-
 end
 
 class FakeSMTP
-
   attr_reader :address, :port, :credentials
 
   def self.deliveries
@@ -53,5 +55,4 @@ class FakeSMTP
   def inspect
     "#<#{self.class} #{@address}:#{@port} started=#{@started}>"
   end
-
 end
