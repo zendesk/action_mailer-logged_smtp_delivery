@@ -5,7 +5,7 @@ require 'action_mailer/logged_smtp_delivery'
 config.action_mailer.logged_smtp_settings = {
   ... normal smtp settings ...,
   logger: Logger.new, # progress info
-  mail_file_logger: Logger.new # log full encoded mails for storage
+  mail_file_logger: FileLogger.new # write encoded mails for storage, must return path they were stored in
 }
 
 

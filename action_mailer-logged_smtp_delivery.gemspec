@@ -17,4 +17,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'bump'
   gem.add_development_dependency 'wwtd'
+  gem.add_development_dependency 'mailcrate'
+  gem.add_development_dependency 'byebug'
 end

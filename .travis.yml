@@ -1,6 +1,7 @@
 rvm:
  - 2.1.2
 script : bundle exec rake test
+bundler_args: ""
 gemfile:
   - gemfiles/rails32.gemfile
   - gemfiles/rails40.gemfile
