@@ -4,6 +4,7 @@ require 'action_mailer/logged_smtp_delivery'
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'logger'
+require 'mailcrate'
 
 I18n.enforce_available_locales = false
 
