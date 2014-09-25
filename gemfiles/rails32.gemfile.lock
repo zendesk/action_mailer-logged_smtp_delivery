@@ -41,7 +41,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mailcrate (0.0.1)
+    mailcrate (0.0.2)
     mime-types (1.25.1)
     minitest (5.4.1)
     minitest-rg (5.1.0)
@@ -74,7 +74,7 @@ DEPENDENCIES
   actionmailer (~> 3.2.18)
   bump
   byebug
-  mailcrate
+  mailcrate (>= 0.0.2)
   minitest
   minitest-rg
   rake

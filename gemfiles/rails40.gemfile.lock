@@ -34,7 +34,7 @@ GEM
     i18n (0.6.11)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
-    mailcrate (0.0.1)
+    mailcrate (0.0.2)
     mime-types (2.3)
     minitest (4.7.5)
     minitest-rg (1.1.1)
@@ -57,7 +57,7 @@ DEPENDENCIES
   actionmailer (~> 4.0.0)
   bump
   byebug
-  mailcrate
+  mailcrate (>= 0.0.2)
   minitest
   minitest-rg
   rake

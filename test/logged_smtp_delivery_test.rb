@@ -37,10 +37,7 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
       smtp.start
     end
 
-    after do
-      smtp.stop
-      Thread.list.last.kill if Thread.list.size > 1 # TODO https://github.com/adscott/mailcrate/pull/3
-    end
+    after { smtp.stop }
 
     def without_file_logger
       original_logger = TestMailer.logged_smtp_settings[:mail_file_logger]
