@@ -105,7 +105,12 @@ class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
 
     it 'does not include BCC addresses in the message' do
       TestMailer.welcome(:bcc => 'bcc@example.com').deliver
-      refute_includes mail[:to_list], "<bcc@example.com>"
+      refute_includes mail[:body], "bcc@example.com"
+    end
+
+    it 'sends to bcc addresses' do
+      TestMailer.welcome(:bcc => 'bcc@example.com').deliver
+      assert_includes mail[:to_list], "<bcc@example.com>"
     end
   end
 end
