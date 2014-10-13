@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action_mailer-logged_smtp_delivery (2.0.1)
+    action_mailer-logged_smtp_delivery (2.0.2)
       actionmailer (>= 3.2.19, < 4.2.0)
 
 GEM
@@ -35,7 +35,7 @@ GEM
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
     mailcrate (0.0.2)
-    mime-types (2.3)
+    mime-types (2.4.1)
     minitest (4.7.5)
     minitest-rg (1.1.1)
       minitest (< 5.0)
