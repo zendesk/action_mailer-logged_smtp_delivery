@@ -10,33 +10,23 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
   end
 
   def deliver!(mail)
-    without_bcc(mail) do |mail|
-      if logger = settings[:mail_file_logger]
-        path = logger.log(mail.encoded)
-        log mail, "stored at #{path}"
-      end
-
-      log_headers(mail)
-      log mail, "sender: #{mail.sender}"
-      log mail, "destinations: #{mail.destinations.inspect}"
-
-      response = super
-
-      log mail, "done #{response.inspect}"
+    if logger = settings[:mail_file_logger]
+      path = logger.log(mail.encoded)
+      log mail, "stored at #{path}"
     end
+
+    log_headers(mail)
+    log mail, "sender: #{mail.sender}"
+    log mail, "destinations: #{mail.destinations.inspect}"
+
+    response = super
+
+    log mail, "done #{response.inspect}"
   end
 
   private
 
   attr_accessor :logger
-
-  def without_bcc(mail)
-    original_bcc = mail.bcc
-    mail.bcc     = nil
-    yield mail
-  ensure
-    mail.bcc = original_bcc
-  end
 
   def log_headers(mail)
     log mail, "#{log_header}: [#{mail[log_header]}]" if log_header
