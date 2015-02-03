@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action_mailer-logged_smtp_delivery (2.0.2)
+    action_mailer-logged_smtp_delivery (2.0.3)
       actionmailer (>= 3.2.19, < 4.3.0)
 
 GEM
