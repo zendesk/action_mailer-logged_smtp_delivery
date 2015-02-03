@@ -3,7 +3,8 @@ rvm:
 script : bundle exec rake test
 bundler_args: ""
 gemfile:
-  - gemfiles/rails32.gemfile
-  - gemfiles/rails40.gemfile
-  - gemfiles/rails41.gemfile
+  - gemfiles/rails3.2.gemfile
+  - gemfiles/rails4.0.gemfile
+  - gemfiles/rails4.1.gemfile
+  - gemfiles/rails4.2.gemfile
 cache: bundler
