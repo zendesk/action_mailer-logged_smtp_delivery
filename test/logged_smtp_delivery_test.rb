@@ -6,7 +6,7 @@ else
   :deliver
 end
 
-class LoggedSMTPDeliveryTest < MiniTest::Unit::TestCase
+class LoggedSMTPDeliveryTest < Minitest::Test
   class TestMailer < ActionMailer::Base
     self.delivery_method  = :logged_smtp
 
