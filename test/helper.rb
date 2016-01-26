@@ -8,6 +8,8 @@ require 'mailcrate'
 
 I18n.enforce_available_locales = false
 
+Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
+
 class MemoryLogger
   def log(message)
     messages << message
