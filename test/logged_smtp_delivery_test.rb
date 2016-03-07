@@ -31,7 +31,15 @@ class LoggedSMTPDeliveryTest < Minitest::Test
     }
     let(:smtp) { Mailcrate.new(port) }
     let(:port) { 25552 }
-    let(:mail) { smtp.mails.last }
+
+    def mail
+      count = 0
+      until smtp.mails.any? || count > 4
+        sleep 0.1
+        count += 1
+      end
+      smtp.mails.last
+    end
 
     before do
       TestMailer.logged_smtp_settings = {
