@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.files         = Dir.glob('lib/**/*') + ['README.md']
 
   gem.name          = 'action_mailer-logged_smtp_delivery'
-  gem.version       = '2.0.4'
+  gem.version       = '2.0.5'
   gem.license       = "Apache V2"
 
   gem.add_runtime_dependency 'actionmailer', '>= 3.2.22.2', '< 5.1.0'

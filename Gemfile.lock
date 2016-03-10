@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action_mailer-logged_smtp_delivery (2.0.4)
+    action_mailer-logged_smtp_delivery (2.0.5)
       actionmailer (>= 3.2.22.2, < 5.1.0)
 
 GEM
@@ -86,4 +86,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.11.2
+   1.12.0.pre.2
