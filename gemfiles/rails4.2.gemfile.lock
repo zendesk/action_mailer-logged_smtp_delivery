@@ -1,35 +1,35 @@
 PATH
   remote: ../
   specs:
-    action_mailer-logged_smtp_delivery (2.0.4)
+    action_mailer-logged_smtp_delivery (2.0.5)
       actionmailer (>= 3.2.22.2, < 5.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.2.6)
-      actionpack (= 4.2.6)
-      actionview (= 4.2.6)
-      activejob (= 4.2.6)
+    actionmailer (4.2.5.2)
+      actionpack (= 4.2.5.2)
+      actionview (= 4.2.5.2)
+      activejob (= 4.2.5.2)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.6)
-      actionview (= 4.2.6)
-      activesupport (= 4.2.6)
+    actionpack (4.2.5.2)
+      actionview (= 4.2.5.2)
+      activesupport (= 4.2.5.2)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.6)
-      activesupport (= 4.2.6)
+    actionview (4.2.5.2)
+      activesupport (= 4.2.5.2)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    activejob (4.2.6)
-      activesupport (= 4.2.6)
+    activejob (4.2.5.2)
+      activesupport (= 4.2.5.2)
       globalid (>= 0.3.0)
-    activesupport (4.2.6)
+    activesupport (4.2.5.2)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -47,7 +47,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mailcrate (0.0.3)
+    mailcrate (0.0.6)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
@@ -77,10 +77,10 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer-logged_smtp_delivery!
-  actionmailer (~> 4.2.0)
+  actionmailer (~> 4.2.5.2)
   bump
   byebug
-  mailcrate (>= 0.0.2)
+  mailcrate (>= 0.0.6)
   minitest
   minitest-rg
   rake
