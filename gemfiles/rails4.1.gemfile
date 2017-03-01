@@ -1,5 +1,9 @@
 source "https://rubygems.org"
 
-gemspec :path=>"../"
+gemspec path: "../"
 
 gem "actionmailer", "~> 4.1.14.2"
+
+source "https://gem.zdsys.com/gems/" do
+  gem "zendesk_statsd", "~> 0.4"
+end

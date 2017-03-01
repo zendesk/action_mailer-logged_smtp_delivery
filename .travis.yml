@@ -1,18 +1,29 @@
 sudo: false
+
+before_install: bundle config https://gem.zdsys.com/gems/ $BUNDLE_GEM__ZDSYS__COM
+bundler_args: ""
+cache: bundler
+
+branches:
+  only: master
+
+before_script:
+ - git config --global user.email "you@example.com"
+ - git config --global user.name "Your Name"
+
+script : bundle exec rake test
+
 rvm:
  - 2.1.8
  - 2.2.4
  - 2.3.0
-script : bundle exec rake test
-bundler_args: ""
+
 gemfile:
   - gemfiles/rails3.2.gemfile
   - gemfiles/rails4.1.gemfile
   - gemfiles/rails4.2.gemfile
   - gemfiles/rails5.0.gemfile
-cache: bundler
-branches:
-  only: master
+
 matrix:
   exclude:
     - rvm: 2.1.8
