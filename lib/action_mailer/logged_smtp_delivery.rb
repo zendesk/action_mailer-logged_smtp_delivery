@@ -22,6 +22,7 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     response = super
 
     log mail, "done #{response.inspect}"
+    record_and_return_response(response)
   end
 
   private
@@ -36,8 +37,32 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     settings[:log_header]
   end
 
+  def record_and_return_response(response)
+    return unless record_and_return_response?
+    Zendesk::SMTP::StatsD.client.increment('outbound_mail.smtp_response', %W[status:#{response.status} status_string:#{response.string}]) if error_response?(response)
+    response
+  end
+
+  def record_and_return_response?
+    settings[:record_and_return_response]
+  end
+
+  def error_response?(response)
+    !response.success? && !response.continue?
+  end
+
   def log(mail, message)
     logger.info("#{mail.message_id} #{message}")
+  end
+end
+
+module Zendesk
+  module SMTP
+    class StatsD
+      def self.client
+        @@client ||= Zendesk::StatsD::Client.new(namespace: 'smtp_mail')
+      end
+    end
   end
 end
 

@@ -1,11 +1,12 @@
 PATH
-  remote: ../
+  remote: ..
   specs:
-    action_mailer-logged_smtp_delivery (2.0.5)
+    action_mailer-logged_smtp_delivery (2.0.6)
       actionmailer (>= 3.2.22.2, < 5.1.0)
 
 GEM
   remote: https://rubygems.org/
+  remote: https://gem.zdsys.com/gems/
   specs:
     actionmailer (5.0.0.beta3)
       actionpack (= 5.0.0.beta3)
@@ -38,6 +39,8 @@ GEM
     bump (0.5.3)
     byebug (8.2.1)
     concurrent-ruby (1.0.1)
+    dogstatsd-ruby (2.2.0)
+    dotenv (2.2.0)
     erubis (2.7.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -72,6 +75,12 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     wwtd (1.3.0)
+    zendesk_configuration (1.8.3)
+      dotenv
+      json
+    zendesk_statsd (0.4.5)
+      dogstatsd-ruby
+      zendesk_configuration (~> 1.5)
 
 PLATFORMS
   ruby
@@ -86,6 +95,7 @@ DEPENDENCIES
   minitest-rg
   rake
   wwtd
+  zendesk_statsd (~> 0.4)!
 
 BUNDLED WITH
-   1.11.2
+   1.14.4
