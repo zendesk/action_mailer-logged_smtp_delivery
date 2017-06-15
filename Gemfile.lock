@@ -1,35 +1,35 @@
 PATH
   remote: .
   specs:
-    action_mailer-logged_smtp_delivery (2.0.6)
+    action_mailer-logged_smtp_delivery (2.1.0)
       actionmailer (>= 3.2.22.2, < 5.2.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (5.0.3)
-      actionpack (= 5.0.3)
-      actionview (= 5.0.3)
-      activejob (= 5.0.3)
+    actionmailer (5.1.1)
+      actionpack (= 5.1.1)
+      actionview (= 5.1.1)
+      activejob (= 5.1.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.0.3)
-      actionview (= 5.0.3)
-      activesupport (= 5.0.3)
+    actionpack (5.1.1)
+      actionview (= 5.1.1)
+      activesupport (= 5.1.1)
       rack (~> 2.0)
       rack-test (~> 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.0.3)
-      activesupport (= 5.0.3)
+    actionview (5.1.1)
+      activesupport (= 5.1.1)
       builder (~> 3.1)
-      erubis (~> 2.7.0)
+      erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.0.3)
-      activesupport (= 5.0.3)
+    activejob (5.1.1)
+      activesupport (= 5.1.1)
       globalid (>= 0.3.6)
-    activesupport (5.0.3)
+    activesupport (5.1.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
@@ -38,13 +38,13 @@ GEM
     bump (0.5.3)
     byebug (8.2.1)
     concurrent-ruby (1.0.5)
-    erubis (2.7.0)
+    erubi (1.6.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.4)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mailcrate (0.0.6)
     mime-types (3.1)
@@ -84,4 +84,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
