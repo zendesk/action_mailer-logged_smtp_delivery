@@ -95,7 +95,7 @@ class LoggedSMTPDeliveryTest < Minitest::Test
 
     it 'does not log empty headers' do
       TestMailer.welcome.send(DELIVER_METHOD)
-      refute_match /^: \[/, log.string
+      refute_match(/^: \[/, log.string)
     end
 
     it 'logs headers when the log header is provided' do
