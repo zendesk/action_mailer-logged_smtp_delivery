@@ -21,6 +21,7 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
 
     response = super
 
+    mail.header[:smtp_response] = response.message
     log mail, "done #{response.inspect}"
   end
 

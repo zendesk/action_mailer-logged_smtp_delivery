@@ -126,5 +126,10 @@ class LoggedSMTPDeliveryTest < Minitest::Test
       TestMailer.welcome(:bcc => 'bcc@example.com').send(DELIVER_METHOD)
       assert_includes mail[:to_list], "<bcc@example.com>"
     end
+
+    it 'store the smtp response message in mta_email_id header' do
+      message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+      assert_includes message.header['smtp-response'].value, "250 ok"
+    end
   end
 end
