@@ -127,9 +127,21 @@ class LoggedSMTPDeliveryTest < Minitest::Test
       assert_includes mail[:to_list], "<bcc@example.com>"
     end
 
-    it 'store the smtp response message in mta_email_id header' do
-      message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
-      assert_includes message.header['smtp-response'].value, "250 ok"
+    describe 'when the smtp response message not contains an ulid value' do
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        refute message.header['email_id']
+      end
+    end
+
+    describe 'when the smtp response message contains an ulid value' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+
+      it 'stores the id in email_id header' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:set_email_id, message, "250 2.0.0 OK cec04206-d395 [01EN822WVWWDQ8Y6ZT1BACHHRM]")
+        assert_includes message.header['email_id'].value, '01EN822WVWWDQ8Y6ZT1BACHHRM'
+      end
     end
   end
 end
