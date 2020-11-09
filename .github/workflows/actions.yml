@@ -14,7 +14,7 @@ jobs:
       max-parallel: 20
       matrix:
         rvm:
-          - 2.2.7
+          - 2.2.10
           - 2.3.4
           - 2.4.1
           - 2.5.8
@@ -29,6 +29,9 @@ jobs:
           - rake test
         exclude:
           - rvm: 2.4.1
+            gemfile: gemfiles/rails3.2.gemfile
+            task: rake test
+          - rvm: 2.7
             gemfile: gemfiles/rails3.2.gemfile
             task: rake test
     steps:
