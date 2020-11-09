@@ -1,0 +1,48 @@
+name: repo-checks
+on:
+  push:
+    branches: [master]
+  pull_request:
+jobs:
+  main:
+    name: rvm-gemfile
+    runs-on: [ubuntu-latest]
+    env:
+      RAILS_ENV: test
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        rvm:
+          - 2.2.10
+          - 2.3.4
+          - 2.4.1
+          - 2.5.8
+          - 2.6
+          - 2.7
+        gemfile:
+          - gemfiles/rails3.2.gemfile
+          - gemfiles/rails4.2.gemfile
+          - gemfiles/rails5.0.gemfile
+          - gemfiles/rails5.1.gemfile
+        task:
+          - rake test
+        exclude:
+          - rvm: 2.4.1
+            gemfile: gemfiles/rails3.2.gemfile
+            task: rake test
+          - rvm: 2.7
+            gemfile: gemfiles/rails3.2.gemfile
+            task: rake test
+    steps:
+    - uses: zendesk/checkout@v2
+    - uses: zendesk/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.rvm }}
+    - name: setup_env
+      run: echo "::set-env name=BUNDLE_GEMFILE::$GITHUB_WORKSPACE/${{ matrix.gemfile }}"
+      shell: bash
+    - name: install
+      run: bundle install --without debug documentation
+    - name: Run ${{ matrix.task }} with Ruby ${{ matrix.rvm }} and ${{ matrix.gemfile }}
+      run: bundle exec ${{ matrix.task }}
