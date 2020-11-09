@@ -2,7 +2,7 @@ require 'action_mailer'
 require 'mail/network/delivery_methods/smtp'
 
 class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
-  ULID_PATTERN = /[A-Z0-9]{26}/.freeze
+  ULID_PATTERN = /[ABCDEFGHJKMNPQRSTVWXYZ0-9]{26}/.freeze
 
   def initialize(settings)
     super
@@ -22,7 +22,7 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     log mail, "destinations: #{mail.destinations.inspect}"
 
     response = super
-    set_email_id(mail, response&.message)
+    store_email_id(mail, response)
 
     log mail, "done #{response.inspect}"
   end
@@ -43,10 +43,11 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     logger.info("#{mail.message_id} #{message}")
   end
 
-  def set_email_id(mail, response_message)
-    return if response_message.nil?
+  def store_email_id(mail, response)
+    return unless response.respond_to?(:message)
+    return if response&.message.nil?
 
-    email_id = response_message[ULID_PATTERN, 0]
+    email_id = response.message[ULID_PATTERN, 0]
     mail.header[:email_id] = email_id unless email_id.nil?
   end
 end
