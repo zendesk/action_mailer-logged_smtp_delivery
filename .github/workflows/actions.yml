@@ -6,7 +6,7 @@ on:
 jobs:
   main:
     name: rvm-gemfile
-    runs-on: [self-hosted, zendesk-stable]
+    runs-on: [ubuntu-latest]
     env:
       RAILS_ENV: test
     strategy:
