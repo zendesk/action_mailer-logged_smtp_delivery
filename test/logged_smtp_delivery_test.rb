@@ -145,6 +145,17 @@ class LoggedSMTPDeliveryTest < Minitest::Test
       end
     end
 
+    describe 'when the smtp response message contains an invalid ulid value' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+      let(:response) { Net::SMTP::Response.parse('250 2.0.0 OK cec04206-d395 [01EN822WVWWDQ8IY6ZT1BACHHR]') }
+
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:store_email_id, message, response)
+        refute message.header['email_id']
+      end
+    end
+
     describe 'when the smtp response message is nil' do
       let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
       let(:response) { Net::SMTP::Response.parse('') }

@@ -2,11 +2,10 @@ require 'action_mailer'
 require 'mail/network/delivery_methods/smtp'
 
 class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
-
   # The ULID pattern conforms with the spec - https://github.com/ulid/spec#encoding
   # a. Canonically encoded as a 26 character string
   # b. Excludes the letters I, L, O, and U to avoid confusion and abuse.
-  ULID_PATTERN = /[A-HJKMNV-Z0-9]{26}/.freeze
+  ULID_PATTERN = /(?!.*[ILOU])[A-Z0-9]{26}/.freeze
 
   def initialize(settings)
     super
