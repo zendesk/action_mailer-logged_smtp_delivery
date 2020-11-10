@@ -126,5 +126,56 @@ class LoggedSMTPDeliveryTest < Minitest::Test
       TestMailer.welcome(:bcc => 'bcc@example.com').send(DELIVER_METHOD)
       assert_includes mail[:to_list], "<bcc@example.com>"
     end
+
+    describe 'when the smtp response message not contains an ulid value' do
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        refute message.header['email_id']
+      end
+    end
+
+    describe 'when the smtp response message contains an ulid value' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+      let(:response) { Net::SMTP::Response.parse('250 2.0.0 OK cec04206-d395 [01EN822WVWWDQ8Y6ZT1BACHHRM]') }
+
+      it 'stores the id in email_id header' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:store_email_id, message, response)
+        assert_includes message.header['email_id'].value, '01EN822WVWWDQ8Y6ZT1BACHHRM'
+      end
+    end
+
+    describe 'when the smtp response message contains an invalid ulid value' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+      let(:response) { Net::SMTP::Response.parse('250 2.0.0 OK cec04206-d395 [01EN822WVWWDQ8IY6ZT1BACHHR]') }
+
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:store_email_id, message, response)
+        refute message.header['email_id']
+      end
+    end
+
+    describe 'when the smtp response message is nil' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+      let(:response) { Net::SMTP::Response.parse('') }
+
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:store_email_id, message, response)
+        refute message.header['email_id']
+      end
+    end
+
+    describe 'when the smtp response object passed to store_email_id method is nil' do
+      let(:mailer) { ActionMailer::LoggedSMTPDelivery.new(TestMailer.logged_smtp_settings) }
+      let(:response) { Net::SMTP::Response.parse('') }
+
+      it 'does not store the email id' do
+        message = TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+        mailer.send(:store_email_id, message, nil)
+        refute message.header['email_id']
+      end
+    end
   end
 end
