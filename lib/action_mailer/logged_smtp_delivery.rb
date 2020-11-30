@@ -2,16 +2,14 @@ require 'action_mailer'
 require 'mail/network/delivery_methods/smtp'
 
 class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
-  # The ULID pattern conforms with the spec - https://github.com/ulid/spec#encoding
-  # a. Canonically encoded as a 26 character string
-  # b. Excludes the letters I, L, O, and U to avoid confusion and abuse.
-  ULID_PATTERN = /(?!.*[ILOU])[A-Z0-9]{26}/.freeze
+  attr_accessor :response
 
   def initialize(settings)
     super
     self.settings[:tls] = (settings[:tls] != false)
     self.settings[:return_response] = true
     self.logger = settings[:logger]
+    self.response = nil
   end
 
   def deliver!(mail)
@@ -24,9 +22,7 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     log mail, "sender: #{mail.sender}"
     log mail, "destinations: #{mail.destinations.inspect}"
 
-    response = super
-    store_email_id(mail, response)
-
+    self.response = super
     log mail, "done #{response.inspect}"
   end
 
@@ -44,14 +40,6 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
 
   def log(mail, message)
     logger.info("#{mail.message_id} #{message}")
-  end
-
-  def store_email_id(mail, response)
-    return unless response.respond_to?(:message)
-    return if response&.message.nil?
-
-    email_id = response.message[ULID_PATTERN, 0]
-    mail.header[:email_id] = email_id unless email_id.nil?
   end
 end
 
