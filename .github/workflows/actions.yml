@@ -34,7 +34,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.rvm }}
     - name: setup_env
-      run: echo "::set-env name=BUNDLE_GEMFILE::$GITHUB_WORKSPACE/${{ matrix.gemfile }}"
+      run: echo "BUNDLE_GEMFILE=$GITHUB_WORKSPACE/${{ matrix.gemfile }}" >> $GITHUB_ENV
       shell: bash
     - name: install
       run: bundle install --without debug documentation
