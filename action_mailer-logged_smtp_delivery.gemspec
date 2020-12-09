@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.version       = '2.1.2'
   gem.license       = "Apache V2"
 
-  gem.add_runtime_dependency 'actionmailer', '>= 3.2.22.2', '< 5.2.0'
+  gem.add_runtime_dependency 'actionmailer', '>= 3.2.22.2', '< 6.1.0'
 
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'minitest-rg'
