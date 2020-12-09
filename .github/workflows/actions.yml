@@ -22,6 +22,8 @@ jobs:
           - gemfiles/rails4.2.gemfile
           - gemfiles/rails5.0.gemfile
           - gemfiles/rails5.1.gemfile
+          - gemfiles/rails5.2.gemfile
+          - gemfiles/rails6.0.gemfile
         task:
           - rake test
         exclude:
@@ -37,6 +39,8 @@ jobs:
       run: echo "BUNDLE_GEMFILE=$GITHUB_WORKSPACE/${{ matrix.gemfile }}" >> $GITHUB_ENV
       shell: bash
     - name: install
-      run: bundle install --without debug documentation
+      run: |
+        gem update --system
+        bundle install --without debug documentation
     - name: Run ${{ matrix.task }} with Ruby ${{ matrix.rvm }} and ${{ matrix.gemfile }}
       run: bundle exec ${{ matrix.task }}
