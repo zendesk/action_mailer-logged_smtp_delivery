@@ -68,7 +68,6 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    wwtd (1.3.0)
 
 PLATFORMS
   ruby
@@ -82,7 +81,6 @@ DEPENDENCIES
   minitest
   minitest-rg
   rake
-  wwtd
 
 BUNDLED WITH
    2.3.21
