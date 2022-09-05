@@ -8,6 +8,7 @@ jobs:
     name: rvm-gemfile
     runs-on: [ubuntu-latest]
     env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       RAILS_ENV: test
     strategy:
       fail-fast: false
@@ -27,12 +28,6 @@ jobs:
     - uses: zendesk/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.rvm }}
-    - name: setup_env
-      run: echo "BUNDLE_GEMFILE=$GITHUB_WORKSPACE/${{ matrix.gemfile }}" >> $GITHUB_ENV
-      shell: bash
-    - name: install
-      run: |
-        gem update --system
-        bundle install --without debug documentation
+        bundler-cache: true
     - name: Run ${{ matrix.task }} with Ruby ${{ matrix.rvm }} and ${{ matrix.gemfile }}
       run: bundle exec ${{ matrix.task }}
