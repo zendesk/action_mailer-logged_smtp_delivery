@@ -14,22 +14,14 @@ jobs:
       max-parallel: 20
       matrix:
         rvm:
-          - 2.5.8
           - 2.6
           - 2.7
         gemfile:
-          - gemfiles/rails3.2.gemfile
-          - gemfiles/rails4.2.gemfile
-          - gemfiles/rails5.0.gemfile
           - gemfiles/rails5.1.gemfile
           - gemfiles/rails5.2.gemfile
           - gemfiles/rails6.0.gemfile
         task:
           - rake test
-        exclude:
-          - rvm: 2.7
-            gemfile: gemfiles/rails3.2.gemfile
-            task: rake test
     steps:
     - uses: zendesk/checkout@v2
     - uses: zendesk/setup-ruby@v1

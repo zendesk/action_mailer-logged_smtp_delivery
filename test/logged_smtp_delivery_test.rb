@@ -1,11 +1,5 @@
 require_relative 'helper'
 
-DELIVER_METHOD = if ActionMailer::VERSION::STRING >= "4.2.0"
-  :deliver_now
-else
-  :deliver
-end
-
 class LoggedSMTPDeliveryTest < Minitest::Test
   class TestMailer < ActionMailer::Base
     self.delivery_method = :logged_smtp
@@ -62,19 +56,19 @@ class LoggedSMTPDeliveryTest < Minitest::Test
     end
 
     it 'logs the mail to a file when the mail file logger is available' do
-      TestMailer.welcome.send(DELIVER_METHOD)
+      TestMailer.welcome.deliver_now
       mail_file_logger.messages.must_equal ["Date: Sat, 01 Jan 2000 00:00:00 +0000\r\nFrom: me@example.com\r\nTo: to@example.com\r\nMessage-ID: 12345@example.com\r\nSubject: Welcome\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"]
     end
 
     it 'does not logs without file logger' do
       without_file_logger do
-        TestMailer.welcome.send(DELIVER_METHOD)
+        TestMailer.welcome.deliver_now
         mail_file_logger.messages.must_equal []
       end
     end
 
     it 'has the sender via the first from address' do
-      TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).send(DELIVER_METHOD)
+      TestMailer.welcome(:from => [ 'a@example.com', 'b@example.com' ]).deliver_now
       assert_equal '<a@example.com>', mail[:from]
     end
 
@@ -89,18 +83,18 @@ class LoggedSMTPDeliveryTest < Minitest::Test
     end
 
     it 'prefixes logs with the mail message id' do
-      TestMailer.welcome.send(DELIVER_METHOD)
+      TestMailer.welcome.deliver_now
       assert_includes log.string, '12345@example.com stored at'
     end
 
     it 'does not log empty headers' do
-      TestMailer.welcome.send(DELIVER_METHOD)
+      TestMailer.welcome.deliver_now
       refute_match(/^: \[/, log.string)
     end
 
     it 'logs headers when the log header is provided' do
       TestMailer.logged_smtp_settings[:log_header] = 'X-Delivery-Context'
-      TestMailer.welcome('X-Delivery-Context' => 'hello-33').send(DELIVER_METHOD)
+      TestMailer.welcome('X-Delivery-Context' => 'hello-33').deliver_now
       assert_includes log.string, '12345@example.com X-Delivery-Context: [hello-33]'
     end
 
@@ -110,7 +104,7 @@ class LoggedSMTPDeliveryTest < Minitest::Test
         :to   => 'to@example.com',
         :cc   => 'cc@example.com',
         :body => 'hello'
-      ).send(DELIVER_METHOD)
+      ).deliver_now
 
       mail[:body].must_equal "Date: Sat, 01 Jan 2000 00:00:00 +0000\nFrom: me@example.com\nTo: to@example.com\nCc: cc@example.com\nMessage-ID: 12345@example.com\nSubject: Welcome\nMime-Version: 1.0\nContent-Type: text/plain;\n charset=UTF-8\nContent-Transfer-Encoding: 7bit\n\nhello"
       mail[:from].must_equal "<me@example.com>"
@@ -118,12 +112,12 @@ class LoggedSMTPDeliveryTest < Minitest::Test
     end
 
     it 'does not include BCC addresses in the message' do
-      TestMailer.welcome(:bcc => 'bcc@example.com').send(DELIVER_METHOD)
+      TestMailer.welcome(:bcc => 'bcc@example.com').deliver_now
       refute_includes mail[:body], "bcc@example.com"
     end
 
     it 'sends to bcc addresses' do
-      TestMailer.welcome(:bcc => 'bcc@example.com').send(DELIVER_METHOD)
+      TestMailer.welcome(:bcc => 'bcc@example.com').deliver_now
       assert_includes mail[:to_list], "<bcc@example.com>"
     end
 
