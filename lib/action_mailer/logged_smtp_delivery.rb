@@ -13,8 +13,8 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
   end
 
   def deliver!(mail)
-    if logger = settings[:mail_file_logger]
-      path = logger.log(mail.encoded)
+    if file_logger = settings[:mail_file_logger]
+      path = file_logger.log(mail.encoded)
       log mail, "stored at #{path}"
     end
 
@@ -22,8 +22,13 @@ class ActionMailer::LoggedSMTPDelivery < Mail::SMTP
     log mail, "sender: #{mail.sender}"
     log mail, "destinations: #{mail.destinations.inspect}"
 
-    self.response = super
-    log mail, "done #{response.inspect}"
+    begin
+      self.response = super
+      log mail, "done #{response.inspect}"
+    rescue => e
+      logger.error("#{mail.message_id} exception #{e.inspect}")
+      raise
+    end
   end
 
   private
