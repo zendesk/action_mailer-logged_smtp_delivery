@@ -128,5 +128,14 @@ class LoggedSMTPDeliveryTest < Minitest::Test
       _(mailer.response).must_be_kind_of Net::SMTP::Response
       _(mailer.response.status).must_equal '250'
     end
+
+    describe 'delivery failures' do
+      it 'logs any StandardError being thrown by the delivery method' do
+        Net::SMTP.any_instance.stubs(:rcptto_list).raises(StandardError.new("kaboom"))
+        assert_raises(StandardError) { TestMailer.welcome.deliver_now }
+        assert_includes log.string, '12345@example.com exception #<StandardError: kaboom>'
+        refute_includes log.string, 'done'
+      end
+    end
   end
 end

@@ -20,4 +20,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'bump'
   gem.add_development_dependency 'mailcrate', '>= 0.0.6'
   gem.add_development_dependency 'byebug'
+  gem.add_development_dependency 'mocha'
 end
