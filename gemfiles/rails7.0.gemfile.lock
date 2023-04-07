@@ -60,6 +60,8 @@ GEM
     minitest (5.16.3)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
+    mocha (2.0.2)
+      ruby2_keywords (>= 0.0.5)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -87,6 +89,7 @@ GEM
     rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     rake (13.0.6)
+    ruby2_keywords (0.0.5)
     strscan (3.0.4)
     timeout (0.3.0)
     tzinfo (2.0.5)
@@ -103,7 +106,8 @@ DEPENDENCIES
   mailcrate (>= 0.0.6)
   minitest
   minitest-rg
+  mocha
   rake
 
 BUNDLED WITH
-   2.3.21
+   2.3.23
