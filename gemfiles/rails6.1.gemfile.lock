@@ -3,6 +3,8 @@ PATH
   specs:
     action_mailer-logged_smtp_delivery (2.2.4)
       actionmailer (>= 6.0)
+      mail (>= 2.7.1, <= 2.8.0)
+      net-smtp
 
 GEM
   remote: https://rubygems.org/
@@ -58,6 +60,10 @@ GEM
       minitest (~> 5.0)
     mocha (2.0.2)
       ruby2_keywords (>= 0.0.5)
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.3-x86_64-darwin)
@@ -75,6 +81,7 @@ GEM
       loofah (~> 2.19, >= 2.19.1)
     rake (13.0.6)
     ruby2_keywords (0.0.5)
+    timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     zeitwerk (2.6.8)
@@ -89,7 +96,6 @@ DEPENDENCIES
   actionmailer (>= 6.1.7.1, < 7.0)
   bump
   byebug
-  mail (>= 2.7.1, <= 2.8.0)
   mailcrate
   minitest
   minitest-rg
