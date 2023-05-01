@@ -52,11 +52,8 @@ GEM
     loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.1)
+    mail (2.7.1)
       mini_mime (>= 0.1.1)
-      net-imap
-      net-pop
-      net-smtp
     mailcrate (0.0.6)
     mini_mime (1.1.2)
     minitest (5.18.0)
@@ -104,6 +101,7 @@ DEPENDENCIES
   actionmailer (>= 7.0.4.3, < 7.1)
   bump
   byebug
+  mail (>= 2.7.1, <= 2.8.0)
   mailcrate
   minitest
   minitest-rg
