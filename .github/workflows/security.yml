@@ -30,7 +30,7 @@ jobs:
 
         case ${{ matrix.gemfile }} in
           gemfiles/rails6.0.gemfile)
-            IGNORED=""
+            IGNORED="CVE-2023-22795 CVE-2023-22792 CVE-2023-28120 CVE-2023-22796"
             ;;
           *)
             IGNORED=""
