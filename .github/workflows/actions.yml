@@ -1,11 +1,11 @@
-name: CI
+name: Continuous Integration
 on:
   push:
     branches: [master]
   pull_request:
 jobs:
   main:
-    name: Tests
+    name: Specs
     runs-on: [ubuntu-latest]
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
@@ -15,12 +15,15 @@ jobs:
       matrix:
         rvm:
           - '2.7' # Default
+          - '3.0'
+          - '3.1'
+          - '3.2'
         gemfile:
           - gemfiles/rails6.0.gemfile # Default
           - gemfiles/rails6.1.gemfile
           - gemfiles/rails7.0.gemfile
     steps:
-      - uses: zendesk/checkout@v2
+      - uses: zendesk/checkout@v3
       - uses: zendesk/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.rvm }}
