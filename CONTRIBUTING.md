@@ -1,5 +1,4 @@
-For bug reports, open an [issue](https://github.com/zendesk/action_mailer-logged_smtp_delivery/issues)
-on GitHub.
+For bug reports, open an [issue](https://github.com/zendesk/action_mailer-logged_smtp_delivery/issues) on GitHub.
 
 ## Getting Started
 

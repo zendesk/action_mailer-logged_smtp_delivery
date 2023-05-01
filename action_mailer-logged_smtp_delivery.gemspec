@@ -10,15 +10,15 @@ Gem::Specification.new do |gem|
   gem.version       = '2.2.4'
   gem.license       = "Apache V2"
 
-  gem.required_ruby_version = ">= 2.6"
+  gem.required_ruby_version = ">= 2.7"
 
-  gem.add_runtime_dependency 'actionmailer', '>= 5.1', '< 7.1'
+  gem.add_runtime_dependency 'actionmailer', '>= 6.0'
 
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'minitest-rg'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'bump'
-  gem.add_development_dependency 'mailcrate', '>= 0.0.6'
+  gem.add_development_dependency 'mailcrate'
   gem.add_development_dependency 'byebug'
   gem.add_development_dependency 'mocha'
 end

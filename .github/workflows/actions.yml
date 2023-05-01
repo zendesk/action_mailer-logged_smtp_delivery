@@ -14,17 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         rvm:
-          - 2.6
-          - 2.7
+          - '2.7' # Default
         gemfile:
-          - gemfiles/rails5.1.gemfile
-          - gemfiles/rails5.2.gemfile
-          - gemfiles/rails6.0.gemfile
+          - gemfiles/rails6.0.gemfile # Default
           - gemfiles/rails6.1.gemfile
           - gemfiles/rails7.0.gemfile
-        exclude:
-          - rvm: 2.6
-            gemfile: gemfiles/rails7.0.gemfile
     steps:
       - uses: zendesk/checkout@v2
       - uses: zendesk/setup-ruby@v1
