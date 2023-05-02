@@ -13,8 +13,10 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = ">= 2.7"
 
   gem.add_runtime_dependency 'actionmailer', '>= 6.0'
-  gem.add_runtime_dependency 'net-smtp'
-  gem.add_runtime_dependency 'mail', '>= 2.7.1', '<= 2.8.0' # FIXME: v2.8.0 changes Message-ID and adds ASCII-8BIT encoding:
+  gem.add_runtime_dependency 'globalid', '>= 1.0.1'
+  gem.add_runtime_dependency 'loofah', '>= 2.19.1'
+  gem.add_runtime_dependency 'mail', '>= 2.7.1', '<= 2.8.0'
+  # FIXME: v2.8.0 changes Message-ID and adds ASCII-8BIT encoding:
   #
   # 1) Failure: delivery#test_0009_sends the mail [/home/runner/work/action_mailer-logged_smtp_delivery/action_mailer-logged_smtp_delivery/test/logged_smtp_delivery_test.rb:109]:
   # --- expected
@@ -30,6 +32,10 @@ Gem::Specification.new do |gem|
   # -Message-ID: 12345@example.com\r
   # +Message-ID: <12345@example.com>\r
   #
+  gem.add_runtime_dependency 'net-smtp'
+  gem.add_runtime_dependency 'nokogiri', '>= 1.13.9'
+  gem.add_runtime_dependency 'rack', '>= 2.2.6.4'
+  gem.add_runtime_dependency 'rails-html-sanitizer', '>= 1.4.4'
 
   gem.add_development_dependency 'bump'
   gem.add_development_dependency 'byebug'
