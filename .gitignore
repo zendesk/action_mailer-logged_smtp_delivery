@@ -1,0 +1,6 @@
+.bundle
+.idea
+.log
+coverage
+pkg
+vendor
