@@ -2,7 +2,8 @@ name: Ruby Gem Publish
 
 on:
   push:
-    tags: v*
+    branches: master
+    paths: lib/action_mailer/version.rb
 
 jobs:
   call-workflow:

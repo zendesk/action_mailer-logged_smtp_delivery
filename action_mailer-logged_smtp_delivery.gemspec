@@ -1,3 +1,5 @@
+require_relative 'lib/action_mailer/version'
+
 Gem::Specification.new do |gem|
   gem.authors       = ['Eric Chapweske']
   gem.description   = "ActionMailer SMTP delivery strategy with advanced logging and Bcc support"
@@ -7,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.files         = Dir.glob('lib/**/*') + ['README.md']
 
   gem.name          = 'action_mailer-logged_smtp_delivery'
-  gem.version       = '2.3.0'
+  gem.version       = LoggedSMTPDelivery::VERSION
   gem.license       = "Apache V2"
 
   gem.required_ruby_version = ">= 3.0"
