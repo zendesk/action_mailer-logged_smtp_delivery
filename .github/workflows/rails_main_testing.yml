@@ -1,0 +1,29 @@
+name: Test against Rails main
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Run every day at 00:00 UTC
+  workflow_dispatch:
+  push:
+
+env:
+  BUNDLE_ZDREPO__JFROG__IO: "${{ secrets.BUNDLE_ZDREPO__JFROG__IO }}"
+
+jobs:
+  main:
+    name: Ruby${{ matrix.ruby }} rails_main test
+    runs-on: [ubuntu-latest]
+    env:
+      BUNDLE_GEMFILE: rails_main.gemfile
+      RAILS_ENV: test
+    strategy:
+      matrix:
+        ruby:
+          - '3.3'
+    steps:
+      - uses: zendesk/checkout@v3
+      - uses: zendesk/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: bundle exec rake test
