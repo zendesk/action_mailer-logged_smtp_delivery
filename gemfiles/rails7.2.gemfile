@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gemspec path: '../'
 
-gem 'actionmailer', '>= 6.0.6.1', '< 6.1'
+gem 'actionmailer', '~> 7.2.0'
