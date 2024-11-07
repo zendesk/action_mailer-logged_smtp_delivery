@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 3.1"
 
-  gem.add_runtime_dependency 'actionmailer', '>= 6.0'
+  gem.add_runtime_dependency 'actionmailer', '>= 6.1'
   gem.add_runtime_dependency 'globalid', '>= 1.0.1'
   gem.add_runtime_dependency 'loofah', '>= 2.19.1'
   gem.add_runtime_dependency 'mail', '>= 2.7.1', '<= 2.8.0'
