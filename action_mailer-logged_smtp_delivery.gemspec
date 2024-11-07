@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.version       = '2.3.0'
   gem.license       = "Apache V2"
 
-  gem.required_ruby_version = ">= 2.7"
+  gem.required_ruby_version = ">= 3.1"
 
   gem.add_runtime_dependency 'actionmailer', '>= 6.0'
   gem.add_runtime_dependency 'globalid', '>= 1.0.1'
