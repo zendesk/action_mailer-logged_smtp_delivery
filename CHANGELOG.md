@@ -7,5 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Add support for mail 2.8+.
 * Drop support for Ruby 2.7 and 3.0.
 * Drop support for Rails 6.0.
