@@ -10,28 +10,12 @@ Gem::Specification.new do |gem|
   gem.version       = '2.3.0'
   gem.license       = "Apache V2"
 
-  gem.required_ruby_version = ">= 2.7"
+  gem.required_ruby_version = ">= 3.1"
 
-  gem.add_runtime_dependency 'actionmailer', '>= 6.0'
+  gem.add_runtime_dependency 'actionmailer', '>= 6.1'
   gem.add_runtime_dependency 'globalid', '>= 1.0.1'
   gem.add_runtime_dependency 'loofah', '>= 2.19.1'
-  gem.add_runtime_dependency 'mail', '>= 2.7.1', '<= 2.8.0'
-  # FIXME: v2.8.0 changes Message-ID and adds ASCII-8BIT encoding:
-  #
-  # 1) Failure: delivery#test_0009_sends the mail [/home/runner/work/action_mailer-logged_smtp_delivery/action_mailer-logged_smtp_delivery/test/logged_smtp_delivery_test.rb:109]:
-  # --- expected
-  # +++ actual
-  # +# encoding: ASCII-8BIT
-  # +#    valid: true
-  # -Message-ID: 12345@example.com
-  # +Message-ID: <12345@example.com>
-  #
-  # 2) Failure: delivery#test_0001_logs the mail to a file when the mail file logger is available [/home/runner/work//3action_mailer-logged_smtp_delivery/action_mailer-logged_smtp_delivery/test/logged_smtp_delivery_test.rb:60]:
-  # --- expected
-  # +++ actual
-  # -Message-ID: 12345@example.com\r
-  # +Message-ID: <12345@example.com>\r
-  #
+  gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'net-smtp'
   gem.add_runtime_dependency 'nokogiri', '>= 1.13.9'
   gem.add_runtime_dependency 'rack', '>= 2.2.6.4'
