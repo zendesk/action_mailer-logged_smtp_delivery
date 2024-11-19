@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    action_mailer-logged_smtp_delivery (2.3.0)
+    action_mailer-logged_smtp_delivery (2.4.0)
       actionmailer (>= 6.1)
       globalid (>= 1.0.1)
       loofah (>= 2.19.1)
