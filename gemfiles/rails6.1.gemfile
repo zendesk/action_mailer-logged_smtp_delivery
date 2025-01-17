@@ -3,3 +3,7 @@ source 'https://rubygems.org'
 gemspec path: '../'
 
 gem 'actionmailer', '>= 6.1.7.1', '< 7.0'
+gem 'base64'
+gem 'bigdecimal'
+gem 'drb'
+gem 'mutex_m'

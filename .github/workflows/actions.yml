@@ -16,6 +16,7 @@ jobs:
         rvm:
           - '3.2'
           - '3.3'
+          - '3.4'
         gemfile:
           - gemfiles/mail2.7.gemfile
           - gemfiles/rails6.1.gemfile
