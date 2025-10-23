@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gemspec path: '..'
+
+gem 'mail', '~> 2.8.0'
