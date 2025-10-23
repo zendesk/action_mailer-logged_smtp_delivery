@@ -58,12 +58,19 @@ class LoggedSMTPDeliveryTest < Minitest::Test
     it 'logs the mail to a file when the mail file logger is available' do
       TestMailer.welcome.deliver_now
 
-      message_id = "12345@example.com"
-      if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.8.0")
-        message_id = "<#{message_id}>"
+      mime_version_header = if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.9.0")
+        "MIME-Version"
+      else
+        "Mime-Version"
       end
 
-      assert_equal ["Date: Sat, 01 Jan 2000 00:00:00 +0000\r\nFrom: me@example.com\r\nTo: to@example.com\r\nMessage-ID: #{message_id}\r\nSubject: Welcome\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"], mail_file_logger.messages
+      message_id = if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.8.0")
+        "<12345@example.com>"
+      else
+        "12345@example.com"
+      end
+
+      assert_equal ["Date: Sat, 01 Jan 2000 00:00:00 +0000\r\nFrom: me@example.com\r\nTo: to@example.com\r\nMessage-ID: #{message_id}\r\nSubject: Welcome\r\n#{mime_version_header}: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\nhello"], mail_file_logger.messages
     end
 
     it 'does not logs without file logger' do
@@ -112,12 +119,19 @@ class LoggedSMTPDeliveryTest < Minitest::Test
         :body => 'hello'
       ).deliver_now
 
-      message_id = "12345@example.com"
-      if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.8.0")
-        message_id = "<#{message_id}>"
+      mime_version_header = if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.9.0")
+        "MIME-Version"
+      else
+        "Mime-Version"
       end
 
-      assert_equal "Date: Sat, 01 Jan 2000 00:00:00 +0000\nFrom: me@example.com\nTo: to@example.com\nCc: cc@example.com\nMessage-ID: #{message_id}\nSubject: Welcome\nMime-Version: 1.0\nContent-Type: text/plain;\n charset=UTF-8\nContent-Transfer-Encoding: 7bit\n\nhello", mail[:body]
+      message_id = if Gem::Version.new(Mail::VERSION::STRING) >= Gem::Version.new("2.8.0")
+        "<12345@example.com>"
+      else
+        "12345@example.com"
+      end
+
+      assert_equal "Date: Sat, 01 Jan 2000 00:00:00 +0000\nFrom: me@example.com\nTo: to@example.com\nCc: cc@example.com\nMessage-ID: #{message_id}\nSubject: Welcome\n#{mime_version_header}: 1.0\nContent-Type: text/plain;\n charset=UTF-8\nContent-Transfer-Encoding: 7bit\n\nhello", mail[:body]
       assert_equal "<me@example.com>", mail[:from]
       assert_equal ["<to@example.com>", "<cc@example.com>"], mail[:to_list]
     end
