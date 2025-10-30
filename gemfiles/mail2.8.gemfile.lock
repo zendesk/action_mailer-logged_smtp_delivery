@@ -103,7 +103,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     racc (1.8.1)
-    rack (3.1.8)
+    rack (3.2.3)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -137,4 +137,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   2.4.22
+   2.6.2
